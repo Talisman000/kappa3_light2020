@@ -1,0 +1,20 @@
+module keybuf(input clock,
+	      input reset,
+	      input key_in,
+	      input [3:0] key_val,
+	      input clear,
+	      output [31:0] out);
+reg [31:0] buf; 
+always @(posedge clock)
+begin
+	if(clear)
+	begin
+		buf<=32'b0;
+	end
+	else if(key_in)
+	begin
+		buf<={buf[30:0],key_in};
+	end
+end
+assign out=buf;
+endmodule

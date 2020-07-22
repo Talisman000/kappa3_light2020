@@ -1,0 +1,100 @@
+﻿
+// @file phasegen.v
+// @breif フェーズジェネレータ
+// @author Yusuke Matsunaga (松永 裕介)
+//
+// Copyright (C) 2019 Yusuke Matsunaga
+// All rights reserved.
+//
+// [概要]
+// 命令フェイズを生成する．
+//
+// cstate = {cs_wb, cs_ex, cs_de, cs_if}
+// で，常に1つのビットのみ1になっている．
+// cs_wb = cstate[3], cs_if = cstate[0]
+// であることに注意．
+// 各ビットの意味は以下の通り．
+// cs_if: IF フェーズ
+// cs_de: DE フェーズ
+// cs_ex: EX フェーズ
+// cs_wb: WB フェーズ
+//
+// [入出力]
+// clock:      クロック信号(立ち上がりエッジ)
+// reset:      リセット信号(0でリセット)
+// run:        実行開始
+// step_phase: 1フェイズ実行
+// step_inst:  1命令実行
+// cstate:     命令実行フェーズを表すビットベクタ
+// running:    実行中を表す信号
+module phasegen(input  	     clock,
+		input 	     reset,
+		input 	     run,
+		input 	     step_phase,
+		input 	     step_inst,
+		output [3:0] cstate,
+		output      running);
+reg [3:0] phase;
+reg [1:0] instate;
+reg running;
+always @(posedge clock or negedge reset)
+begin
+	if(!reset) begin
+		phase<=4'b0001;
+		cstate<=phase;
+		instate<=2'b00;
+		running<=0;
+	end
+	else if(instate==2'b00) begin
+		if (run) begin
+			instate<=2'b01;
+			running<=1;
+		end
+		else if(step_inst) begin
+			instate<=2'b10;
+			running<=1;
+		end
+		else if(step_phase) begin
+			instate<=2'b11;
+			running<=1;
+		end
+	end
+	if (instate==2'b01) begin
+		if(run) begin
+			instate<=2'b00;
+			running<=0;
+		end
+		else if(phase==4'b1000) begin
+			phase<=4'b0001;
+			cstate<=phase;
+		end
+		else begin
+			phase<=phase<<1;
+			cstate<=phase;	
+		end
+	end
+	else if(instate==2'b10) begin
+		if (phase==4'b1000) begin
+			phase<=4'b0001;
+			cstate<=phase;
+			instate<=2'b00;
+		end
+		else begin
+			phase<=phase<<1;
+			cstate<=phase;
+		end
+	end
+	else if(instate==2'b11) begin
+		if(phase==4'b1000) begin
+			phase<=4'b0001;
+			cstate<=phase;
+			instate<=2'b00;
+		end
+		else begin
+			phase<=phase<<1;
+			cstate<=phase;
+			instate<=2'b00;
+		end
+	end
+end
+endmodule // phasegen
