@@ -51,11 +51,11 @@ program_main = [
     Inst.ADDI(slot1_counter, 0, slot1_init),
     Inst.ADDI(slot2_counter, 0, slot2_init),
     Inst.ADDI(slot3_counter, 0, slot3_init),
-    Inst.LW(push_switch,seg_led,0x48),
-    Inst.ADDI(step,0,0),
     Inst.ADDI(counter_max, 0, 9),
+    Inst.ADDI(step,0,0),
     # ループ部分
     "input",
+    Inst.LW(push_switch,seg_led,0x48),
     Inst.ANDI(push_result,push_switch,0x01),
     Inst.LBEQ(push_result,0,"slot1"),
     Inst.ADDI(step,step,1),
