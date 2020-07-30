@@ -1,15 +1,16 @@
 # 0~slot1_memoryをループするカウンタ
 ## わかっているクソ仕様
-## SBを一回使用した後にADDIを実行すると機能しない。
-## これを回避するためにはダミーのSBが必要。
+## ・SBを一回使用した後にADDIを実行すると機能しない。
+## 　これを回避するためにはダミーのSBが必要。
+## ・レジスタは30以上を指定したらうまく動かなかった
 
 from inst import Inst, asm, print_asm, print_ihex
 
 # seg led pattern
 
 list_seg_patterns = [0xFC, 0x60, 0xDA, 0xF2, 0x66, 0xB6, 0xBE, 0xE0, 0xFE, 0xF6]
-seg_patterns_mem = 5
-seg_pattern = 6
+seg_patterns_mem = 1
+seg_pattern = 2
 
 program = [
     # Store 7seg led patterns
@@ -24,23 +25,23 @@ for i in range(10):
 
 # slot main
 
-seg_led = 6
-counter_max = 7
+seg_led = 3
+counter_max = 4
 
 slot1_init = 0x0
-slot1_counter = 41
-slot1_memory_addr = 42
-slot1_memory = 43
+slot1_counter = 11
+slot1_memory_addr = 12
+slot1_memory = 13
 
 slot2_init = 0x2
-slot2_counter = 21
-slot2_memory_addr = 22
-slot2_memory = 23
+slot2_counter = 14
+slot2_memory_addr = 15
+slot2_memory = 16
 
 slot3_init = 0x5
-slot3_counter = 31
-slot3_memory_addr = 32
-slot3_memory = 33
+slot3_counter = 17
+slot3_memory_addr = 18
+slot3_memory = 19
 
 program_main = [
     # Main
