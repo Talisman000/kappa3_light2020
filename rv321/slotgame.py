@@ -28,9 +28,9 @@ seg_led = 6
 counter_max = 7
 
 slot1_init = 0x0
-slot1_counter = 11
-slot1_memory_addr = 12
-slot1_memory = 13
+slot1_counter = 41
+slot1_memory_addr = 42
+slot1_memory = 43
 
 slot2_init = 0x2
 slot2_counter = 21
