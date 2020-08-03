@@ -195,11 +195,13 @@ program_main = [
         Inst.SW(seg_led,slot1_memory,0),# dummySW
         Inst.SW(seg_led,slot1_memory,0),
         Inst.ADDI(seg_led,seg_led,0x10),
-        Inst.SW(seg_led,slot1_memory,0x4),# dummySW
-        Inst.SW(seg_led,slot1_memory,0x4),
+        Inst.LW(slot1_memory, tmp_memory_addr, 0x4),
+        Inst.SW(seg_led,slot1_memory,0),# dummySW
+        Inst.SW(seg_led,slot1_memory,0),
         Inst.ADDI(seg_led,seg_led,0x10),
-        Inst.SW(seg_led,slot1_memory,0x8),# dummySW
-        Inst.SW(seg_led,slot1_memory,0x8),
+        Inst.LW(slot1_memory, tmp_memory_addr, 0x8),
+        Inst.SW(seg_led,slot1_memory,0),# dummySW
+        Inst.SW(seg_led,slot1_memory,0),
         # Inst.SB(seg_led, slot1_memory, 0),  # dummySB
         # Inst.SB(seg_led, slot1_memory, 0),
 
@@ -229,9 +231,11 @@ program_main = [
         Inst.SW(seg_led,slot2_memory,0),# dummySW
         Inst.SW(seg_led,slot2_memory,0),
         Inst.ADDI(seg_led,seg_led,0x10),
+        Inst.LW(slot2_memory, tmp_memory_addr, 0x4),
         Inst.SW(seg_led,slot2_memory,0x4),# dummySW
         Inst.SW(seg_led,slot2_memory,0x4),
         Inst.ADDI(seg_led,seg_led,0x10),
+        Inst.LW(slot2_memory, tmp_memory_addr, 0x8),
         Inst.SW(seg_led,slot2_memory,0x8),# dummySW
         Inst.SW(seg_led,slot2_memory,0x8),
         # Inst.SB(seg_led, slot2_memory, 1),  # dummySB
@@ -260,9 +264,11 @@ program_main = [
         Inst.SW(seg_led,slot2_memory,0),# dummySW
         Inst.SW(seg_led,slot2_memory,0),
         Inst.ADDI(seg_led,seg_led,0x10),
+        Inst.LW(slot3_memory, tmp_memory_addr, 0x4),
         Inst.SW(seg_led,slot2_memory,0x4),# dummySW
         Inst.SW(seg_led,slot2_memory,0x4),
         Inst.ADDI(seg_led,seg_led,0x10),
+        Inst.LW(slot3_memory, tmp_memory_addr, 0x4),
         Inst.SW(seg_led,slot2_memory,0x8),# dummySW
         Inst.SW(seg_led,slot2_memory,0x8),
         # Inst.SB(seg_led, slot3_memory, 2),  # dummySB
