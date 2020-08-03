@@ -28,7 +28,7 @@ for i in range(10):
 seg_led = 3
 counter_max = 4
 push_switch = 5
-push_result = 6
+branch_result = 6
 step = 7
 
 slot1_init = 0x0
@@ -54,14 +54,14 @@ program_main = [
     Inst.ADDI(counter_max, 0, 9),
     Inst.ADDI(step,0,0),
     # ループ部分
-    "input1",
+    "input1",    
+    Inst.ANDI(branch_result,step,0x001),
+    Inst.LBEQ(branch_result,0,"input2"),
     Inst.LW(push_switch,seg_led,0x48),
-    Inst.ANDI(push_result,push_switch,0x01),
-    Inst.LBEQ(push_result,0,"slot1"),
+    Inst.ANDI(branch_result,push_switch,0x01),
+    Inst.LBEQ(branch_result,0,"slot1"),
     Inst.ADDI(step,step,0b001),
     "slot1",
-    Inst.ANDI(push_result,step,0x001),
-    Inst.LBEQ(push_result,0,"input3"),
     Inst.ADD(tmp_memory_addr, slot1_counter, seg_patterns_mem),
     Inst.LBU(slot1_memory, tmp_memory_addr, 0),
     Inst.SB(seg_led, slot1_memory, 0),  # dummySB
@@ -73,13 +73,13 @@ program_main = [
     "slot1_reset",
     Inst.ADDI(slot1_counter, 0, 0),
     "input2",
+    Inst.ANDI(branch_result,step,0x010),
+    Inst.LBEQ(branch_result,0,"input3"),
     Inst.LW(push_switch,seg_led,0x49),
-    Inst.ANDI(push_result,push_switch,0x01),
-    Inst.LBEQ(push_result,0,"slot2"),
+    Inst.ANDI(branch_result,push_switch,0x01),
+    Inst.LBEQ(branch_result,0,"slot2"),
     Inst.ADDI(step,step,0b010),
     "slot2",
-    Inst.ANDI(push_result,step,0x010),
-    Inst.LBEQ(push_result,0,"input3"),
     Inst.ADD(tmp_memory_addr, slot2_counter, seg_patterns_mem),
     Inst.LBU(slot2_memory, tmp_memory_addr, 0),
     Inst.SB(seg_led, slot2_memory, 1),  # dummySB
@@ -91,13 +91,13 @@ program_main = [
     "slot2_reset",
     Inst.ADDI(slot2_counter, 0, 0),
     "input3",
+    Inst.ANDI(branch_result,step,0x100),
+    Inst.LBEQ(branch_result,0,"input1"),
     Inst.LW(push_switch,seg_led,0x4a),
-    Inst.ANDI(push_result,push_switch,0x01),
-    Inst.LBEQ(push_result,0,"slot3"),
+    Inst.ANDI(branch_result,push_switch,0x01),
+    Inst.LBEQ(branch_result,0,"slot3"),
     Inst.ADDI(step,step,0b100),
     "slot3",
-    Inst.ANDI(push_result,step,0x100),
-    Inst.LBEQ(push_result,0,"input1"),
     Inst.ADD(tmp_memory_addr, slot3_counter, seg_patterns_mem),
     Inst.LBU(slot3_memory, tmp_memory_addr, 0),
     Inst.SB(seg_led, slot3_memory, 2),  # dummySB
