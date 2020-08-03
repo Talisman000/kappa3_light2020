@@ -55,10 +55,12 @@ Inst.ADDI(1,1,1),
 Inst.LBU(8,5,0),
 Inst.SB(6,8,0),
 Inst.SB(6,8,0),
-Inst.ADDI(1,1,1),
-Inst.LBU(8,5,0x1),
-Inst.SB(6,8,0x1),
-Inst.SB(6,8,0x1),
+Inst.SB(6,8,0x10),
+Inst.SB(6,8,0x10),
+Inst.SB(6,8,0x20),
+Inst.SB(6,8,0x20),
+Inst.SB(6,8,0x30),
+Inst.SB(6,8,0x30)
 ]
 
 r = asm(program)
