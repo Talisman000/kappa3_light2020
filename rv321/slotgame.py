@@ -99,7 +99,7 @@ program = [
   Inst.SW(8,9,0x44),
   Inst.SW(8,9,0x44),
   Inst.LUI(9,0x80808000),#6
-  Inst.ADDI(9,9,0x20E),
+  Inst.ADDI(9,9,0x08c),
   Inst.SW(8,9,0x48),
   Inst.SW(8,9,0x48),
   Inst.LUI(9,0x22020000),
@@ -107,7 +107,7 @@ program = [
   Inst.SW(8,9,0x4C),
   Inst.SW(8,9,0x4C),
   Inst.LUI(9,0x70101000),
-  Inst.ADDI(9,9,0x02C),
+  Inst.ADDI(9,9,0x01C),
   Inst.SW(8,9,0x50),
   Inst.SW(8,9,0x50),
   Inst.LUI(9,0xE0808000),#7
@@ -229,7 +229,8 @@ program_main = [
         #対応する7segにcounterの値を表示する
         Inst.ADD(tmp_memory_addr, slot2_counter, seg_patterns_mem),
         Inst.LW(slot2_memory, tmp_memory_addr, 0),        
-        Inst.LUI(seg_led, 0x04000004),#seg_led初期化
+        Inst.LUI(seg_led, 0x04000000),#seg_led初期化
+        Inst.ADDI(seg_led,seg_led,0x4),
         Inst.SW(seg_led,slot2_memory,0),# dummySW
         Inst.SW(seg_led,slot2_memory,0),
         Inst.ADDI(seg_led,seg_led,0x10),
@@ -263,7 +264,8 @@ program_main = [
         #対応する7segにcounterの値を表示する
         Inst.ADD(tmp_memory_addr, slot3_counter, seg_patterns_mem),
         Inst.LW(slot3_memory, tmp_memory_addr, 0),
-        Inst.LUI(seg_led, 0x04000008),#seg_led初期化
+        Inst.LUI(seg_led, 0x04000000),#seg_led初期化
+        Inst.ADDI(seg_led,seg_led,0x8),
         Inst.SW(seg_led,slot2_memory,0),# dummySW
         Inst.SW(seg_led,slot2_memory,0),
         Inst.ADDI(seg_led,seg_led,0x10),
