@@ -54,61 +54,75 @@ program_main = [
     Inst.ADDI(counter_max, 0, 9),
     Inst.ADDI(step,0,0),
     # ループ部分
-    "input1",    
-    Inst.ANDI(branch_result,step,0b001),
-    Inst.LBNE(branch_result,0,"input2"),
-    Inst.LW(push_switch,seg_led,0x48),
-    Inst.ANDI(branch_result,push_switch,0b00001),
-    Inst.LBEQ(branch_result,0,"slot1"),
-    Inst.ADDI(step,step,0b001),
+    "input1", 
+        #すでにslot1のスイッチが押されていたならばslot1の処理をスキップ
+        #slot1は001、slot2は010、slot3は100をAND演算
+        Inst.ANDI(branch_result,step,0b001),
+        Inst.LBNE(branch_result,0,"input2"),
+        #slot1のスイッチの処理：押されていれば001を加算
+        Inst.LW(push_switch,seg_led,0x48),
+        Inst.ANDI(branch_result,push_switch,0b00001),
+        Inst.LBEQ(branch_result,0,"slot1"),
+        Inst.ADDI(step,step,0b001),
     "slot1",
-    Inst.ADD(tmp_memory_addr, slot1_counter, seg_patterns_mem),
-    Inst.LBU(slot1_memory, tmp_memory_addr, 0),
-    Inst.SB(seg_led, slot1_memory, 0),  # dummySB
-    Inst.SB(seg_led, slot1_memory, 0),
-    Inst.LBEQ(slot1_counter, counter_max, "slot1_reset"),
+        #対応する7segにcounterの値を表示する
+        Inst.ADD(tmp_memory_addr, slot1_counter, seg_patterns_mem),
+        Inst.LBU(slot1_memory, tmp_memory_addr, 0),
+        Inst.SB(seg_led, slot1_memory, 0),  # dummySB
+        Inst.SB(seg_led, slot1_memory, 0),
+        #counterが1~8のとき->counter++　counterが9のとき->counter = 0
+        #counterをループさせるための処理です
+        Inst.LBEQ(slot1_counter, counter_max, "slot1_reset"),
     "slot1_add_1",
-    Inst.ADDI(slot1_counter, slot1_counter, 1),
-    Inst.LJAL(0, "input2"),  # goto input22
+        Inst.ADDI(slot1_counter, slot1_counter, 1),
+        Inst.LJAL(0, "input2"),  # goto input22
     "slot1_reset",
-    Inst.ADDI(slot1_counter, 0, 0),
+        Inst.ADDI(slot1_counter, 0, 0),
     "input2",
-    Inst.ANDI(branch_result,step,0b010),
-    Inst.LBNE(branch_result,0,"input3"),
-    Inst.LW(push_switch,seg_led,0x48),
-    Inst.ANDI(branch_result,push_switch,0b00010),
-    Inst.LBEQ(branch_result,0,"slot2"),
-    Inst.ADDI(step,step,0b010),
+        #すでにslot2のスイッチが押されていたならばslot2の処理をスキップ   
+        Inst.ANDI(branch_result,step,0b010),
+        Inst.LBNE(branch_result,0,"input3"),
+        #slot2のスイッチの処理：押されていれば010を加算
+        Inst.LW(push_switch,seg_led,0x48),
+        Inst.ANDI(branch_result,push_switch,0b00010),
+        Inst.LBEQ(branch_result,0,"slot2"),
+        Inst.ADDI(step,step,0b010),
     "slot2",
-    Inst.ADD(tmp_memory_addr, slot2_counter, seg_patterns_mem),
-    Inst.LBU(slot2_memory, tmp_memory_addr, 0),
-    Inst.SB(seg_led, slot2_memory, 1),  # dummySB
-    Inst.SB(seg_led, slot2_memory, 1),
-    Inst.LBEQ(slot2_counter, counter_max, "slot2_reset"),
+        #対応する7segにcounterの値を表示する
+        Inst.ADD(tmp_memory_addr, slot2_counter, seg_patterns_mem),
+        Inst.LBU(slot2_memory, tmp_memory_addr, 0),
+        Inst.SB(seg_led, slot2_memory, 1),  # dummySB
+        Inst.SB(seg_led, slot2_memory, 1),
+        #counterが1~8のとき->counter++　counterが9のとき->counter = 0
+        Inst.LBEQ(slot2_counter, counter_max, "slot2_reset"),
     "slot2_add_1",
-    Inst.ADDI(slot2_counter, slot2_counter, 1),
-    Inst.LJAL(0, "input3"),  # goto input3
+        Inst.ADDI(slot2_counter, slot2_counter, 1),
+        Inst.LJAL(0, "input3"),  # goto input3
     "slot2_reset",
-    Inst.ADDI(slot2_counter, 0, 0),
+        Inst.ADDI(slot2_counter, 0, 0),
     "input3",
-    Inst.ANDI(branch_result,step,0b100),
-    Inst.LBNE(branch_result,0,"input1"),
-    Inst.LW(push_switch,seg_led,0x48),
-    Inst.ANDI(branch_result,push_switch,0b00100),
-    Inst.LBEQ(branch_result,0,"slot3"),
-    Inst.ADDI(step,step,0b100),
+        #すでにslot3のスイッチが押されていたならばslot3の処理をスキップ   
+        Inst.ANDI(branch_result,step,0b100),
+        Inst.LBNE(branch_result,0,"input1"),
+        #slot3のスイッチの処理：押されていれば100を加算
+        Inst.LW(push_switch,seg_led,0x48),
+        Inst.ANDI(branch_result,push_switch,0b00100),
+        Inst.LBEQ(branch_result,0,"slot3"),
+        Inst.ADDI(step,step,0b100),
     "slot3",
-    Inst.ADD(tmp_memory_addr, slot3_counter, seg_patterns_mem),
-    Inst.LBU(slot3_memory, tmp_memory_addr, 0),
-    Inst.SB(seg_led, slot3_memory, 2),  # dummySB
-    Inst.SB(seg_led, slot3_memory, 2),
-    Inst.LBEQ(slot3_counter, counter_max, "slot3_reset"),
+        #対応する7segにcounterの値を表示する
+        Inst.ADD(tmp_memory_addr, slot3_counter, seg_patterns_mem),
+        Inst.LBU(slot3_memory, tmp_memory_addr, 0),
+        Inst.SB(seg_led, slot3_memory, 2),  # dummySB
+        Inst.SB(seg_led, slot3_memory, 2),
+        #counterが1~8のとき->counter++　counterが9のとき->counter = 0
+        Inst.LBEQ(slot3_counter, counter_max, "slot3_reset"),
     "slot3_add_1",
-    Inst.ADDI(slot3_counter, slot3_counter, 1),
-    Inst.LJAL(0, "input1"),  # goto input1
+        Inst.ADDI(slot3_counter, slot3_counter, 1),
+        Inst.LJAL(0, "input1"),  # goto input1
     "slot3_reset",
-    Inst.ADDI(slot3_counter, 0, 0),
-    Inst.LJAL(0, "input1"),  # goto input1
+        Inst.ADDI(slot3_counter, 0, 0),
+        Inst.LJAL(0, "input1"),  # goto input1
 ]
 
 program.extend(program_main)
