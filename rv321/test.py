@@ -59,8 +59,18 @@ Inst.SB(6,8,0x10),
 Inst.SB(6,8,0x10),
 Inst.SB(6,8,0x20),
 Inst.SB(6,8,0x20),
-Inst.SB(6,8,0x30),
-Inst.SB(6,8,0x30)
+Inst.SB(6,8,4),
+Inst.SB(6,8,4),
+Inst.SB(6,8,0x14),
+Inst.SB(6,8,0x14),
+Inst.SB(6,8,0x24),
+Inst.SB(6,8,0x24),
+Inst.SB(6,8,8),
+Inst.SB(6,8,8),
+Inst.SB(6,8,0x18),
+Inst.SB(6,8,0x18),
+Inst.SB(6,8,0x28),
+Inst.SB(6,8,0x28),
 ]
 
 r = asm(program)
