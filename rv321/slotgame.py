@@ -170,6 +170,7 @@ slot3_memory = 16
 tmp_memory_addr = 17
 
 slot_step_pattern = 27
+slot_isReach = 28
 
 program_main = [
     # 初期化
@@ -178,6 +179,7 @@ program_main = [
         Inst.ADDI(slot3_counter, 0, slot3_init),
         Inst.ADDI(counter_max, 0, 0x6c),
         Inst.ADDI(step,0,0),
+        Inst.ADDI(slot_isReach,0,0),
     # ループ部分
     "input1",
         #すでにslot1のスイッチが押されていたならばslot1の処理をスキップ
@@ -282,16 +284,16 @@ program_main = [
         Inst.LJAL(0, "judge"),  # goto judge
     "slot3_reset",
         Inst.ADDI(slot3_counter, 0, 0),
-        Inst.LJAL(0, "judge"),  # goto judge
 
     "judge",
+        Inst.LBNE(slot_isReach,0,'return'),
         Inst.ADDI(slot_step_pattern, 0, 0b111),
         Inst.LBEQ(step, slot_step_pattern, 'slot1_2_3'),
-        Inst.ADDI(slot_step_pattern, 0, 0b011),
+        Inst.ADDI(slot_step_pattern, 0, 0b110),
         Inst.LBEQ(step, slot_step_pattern, 'slot2_3'),
         Inst.ADDI(slot_step_pattern, 0, 0b101),
         Inst.LBEQ(step, slot_step_pattern, 'slot1_3'),
-        Inst.ADDI(slot_step_pattern, 0, 0b110),
+        Inst.ADDI(slot_step_pattern, 0, 0b011),
         Inst.LBEQ(step, slot_step_pattern, 'slot1_2'),
         'return',
         Inst.LJAL(0, "input1"),  # goto judge
@@ -306,6 +308,7 @@ program_main = [
         Inst.LBEQ(slot1_counter, slot2_counter, 'reach'),
         Inst.LJAL(0, 'return'),
     'reach',
+        Inst.ADDI(slot_isReach,0,1),
         Inst.LUI(20, 0x04000000),
         Inst.ADDI(21, 0, 0x01),
         Inst.ADDI(22, 0, 0b00000001),
@@ -332,7 +335,7 @@ program_main = [
     'bingo',
         Inst.LUI(20, 0x04000000),
         Inst.ADDI(23,20,0x40),
-    'mode 0',
+    'mode0',
         Inst.ADDI(24,0,0b01010101),
         Inst.SB(23,24,0x00),
         Inst.SB(23,24,0x01),
@@ -343,8 +346,8 @@ program_main = [
         Inst.SB(23,24,0x03),
         Inst.SB(23,24,0x06),
         Inst.SB(23,24,0x07),
-        Inst.LJAL(0,'mode 1'),
-    'mode 1',
+        Inst.LJAL(0,'mode1'),
+    'mode1',
         Inst.ADDI(24,0,0b10101010),
         Inst.SB(23,24,0x00),
         Inst.SB(23,24,0x01),
@@ -355,7 +358,7 @@ program_main = [
         Inst.SB(23,24,0x03),
         Inst.SB(23,24,0x06),
         Inst.SB(23,24,0x07),
-        Inst.LJAL(0,'mode 0'),
+        Inst.LJAL(0,'mode0'),
 ]
 
 program.extend(program_main)
