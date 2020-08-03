@@ -54,6 +54,9 @@ Inst.LUI(6, 0x04000000),
 Inst.LBU(8,5,0),
 Inst.SB(6,8,0),
 Inst.SB(6,8,0),
+Inst.LBU(8,5,0x1),
+Inst.SB(6,8,0x1),
+Inst.SB(6,8,0x1),
 ]
 
 r = asm(program)
