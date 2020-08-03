@@ -159,11 +159,11 @@ slot1_init = 0x0
 slot1_counter = 11
 slot1_memory = 12
 
-slot2_init = 0x18
+slot2_init = 0x0
 slot2_counter = 13
 slot2_memory = 14
 
-slot3_init = 0x54
+slot3_init = 0x0
 slot3_counter = 15
 slot3_memory = 16
 
