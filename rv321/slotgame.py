@@ -169,6 +169,8 @@ slot3_memory = 16
 
 tmp_memory_addr = 17
 
+slot_step_pattern = 27
+
 program_main = [
     # 初期化
         Inst.ADDI(slot1_counter, 0, slot1_init),
@@ -283,14 +285,14 @@ program_main = [
         Inst.LJAL(0, "judge"),  # goto judge
 
     "judge",
-        Inst.ANDI(branch_result, step, 0b111),
-        Inst.LBNE(branch_result, 0, 'slot1_2_3'),
-        Inst.ANDI(branch_result, step, 0b011),
-        Inst.LBNE(branch_result, 0, 'slot2_3'),
-        Inst.ANDI(branch_result, step, 0b101),
-        Inst.LBNE(branch_result, 0, 'slot1_3'),
-        Inst.ANDI(branch_result, step, 0b110),
-        Inst.LBNE(branch_result, 0, 'slot1_2'),
+        Inst.ADDI(slot_step_pattern, 0, 0b111),
+        Inst.LBEQ(step, slot_step_pattern, 'slot1_2_3'),
+        Inst.ADDI(slot_step_pattern, 0, 0b011),
+        Inst.LBEQ(step, slot_step_pattern, 'slot2_3'),
+        Inst.ADDI(slot_step_pattern, 0, 0b101),
+        Inst.LBEQ(step, slot_step_pattern, 'slot1_3'),
+        Inst.ADDI(slot_step_pattern, 0, 0b110),
+        Inst.LBEQ(step, slot_step_pattern, 'slot1_2'),
         'return',
         Inst.LJAL(0, "input1"),  # goto judge
     
