@@ -25,7 +25,7 @@ program = [
     Inst.ADDI(21, 0, 0x01),
     Inst.ADDI(22, 0, 0b00000001),
     Inst.ADDI(25, 0, 0b10000000),
-    'loop'
+    'loop',
     Inst.SB(20, 22, 0x40),
     Inst.SB(20, 22, 0x42),
     Inst.SB(20, 22, 0x44),
