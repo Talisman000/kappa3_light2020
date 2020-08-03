@@ -171,7 +171,6 @@ tmp_memory_addr = 17
 
 program_main = [
     # 初期化
-        Inst.LUI(seg_led, 0x04000000),#seg_led初期化
         Inst.ADDI(slot1_counter, 0, slot1_init),
         Inst.ADDI(slot2_counter, 0, slot2_init),
         Inst.ADDI(slot3_counter, 0, slot3_init),
@@ -184,6 +183,7 @@ program_main = [
         Inst.ANDI(branch_result,step,0b001),
         Inst.LBNE(branch_result,0,"input2"),
         #slot1のスイッチの処理：押されていれば001を加算
+        Inst.LUI(seg_led, 0x04000000),#seg_led初期化
         Inst.LW(push_switch,seg_led,0x48),
         Inst.ANDI(branch_result,push_switch,0b00001),
         Inst.LBEQ(branch_result,0,"slot1"),
@@ -192,7 +192,6 @@ program_main = [
         #対応する7segにcounterの値を表示する
         Inst.ADD(tmp_memory_addr, slot1_counter, seg_patterns_mem),
         Inst.LW(slot1_memory, tmp_memory_addr, 0),
-        Inst.LUI(seg_led, 0x04000000),#seg_led初期化
         Inst.LUI(seg_led, 0x04000000),#seg_led初期化
         Inst.SW(seg_led,slot1_memory,0),# dummySW
         Inst.SW(seg_led,slot1_memory,0),
@@ -221,6 +220,7 @@ program_main = [
         Inst.ANDI(branch_result,step,0b010),
         Inst.LBNE(branch_result,0,"input3"),
         #slot2のスイッチの処理：押されていれば010を加算
+        Inst.LUI(seg_led, 0x04000000),#seg_led初期化
         Inst.LW(push_switch,seg_led,0x48),
         Inst.ANDI(branch_result,push_switch,0b00010),
         Inst.LBEQ(branch_result,0,"slot2"),
@@ -229,7 +229,6 @@ program_main = [
         #対応する7segにcounterの値を表示する
         Inst.ADD(tmp_memory_addr, slot2_counter, seg_patterns_mem),
         Inst.LW(slot2_memory, tmp_memory_addr, 0),        
-        Inst.LUI(seg_led, 0x04000004),#seg_led初期化
         Inst.LUI(seg_led, 0x04000004),#seg_led初期化
         Inst.SW(seg_led,slot2_memory,0),# dummySW
         Inst.SW(seg_led,slot2_memory,0),
@@ -255,6 +254,7 @@ program_main = [
         Inst.ANDI(branch_result,step,0b100),
         Inst.LBNE(branch_result,0,"input1"),
         #slot3のスイッチの処理：押されていれば100を加算
+        Inst.LUI(seg_led, 0x04000000),#seg_led初期化
         Inst.LW(push_switch,seg_led,0x48),
         Inst.ANDI(branch_result,push_switch,0b00100),
         Inst.LBEQ(branch_result,0,"slot3"),
@@ -263,7 +263,6 @@ program_main = [
         #対応する7segにcounterの値を表示する
         Inst.ADD(tmp_memory_addr, slot3_counter, seg_patterns_mem),
         Inst.LW(slot3_memory, tmp_memory_addr, 0),
-        Inst.LUI(seg_led, 0x04000008),#seg_led初期化
         Inst.LUI(seg_led, 0x04000008),#seg_led初期化
         Inst.SW(seg_led,slot2_memory,0),# dummySW
         Inst.SW(seg_led,slot2_memory,0),
