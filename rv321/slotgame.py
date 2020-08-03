@@ -266,16 +266,16 @@ program_main = [
         Inst.LW(slot3_memory, tmp_memory_addr, 0),
         Inst.LUI(seg_led, 0x04000000),#seg_led初期化
         Inst.ADDI(seg_led,seg_led,0x20),
-        Inst.SW(seg_led,slot2_memory,0),# dummySW
-        Inst.SW(seg_led,slot2_memory,0),
+        Inst.SW(seg_led,slot3_memory,0),# dummySW
+        Inst.SW(seg_led,slot3_memory,0),
         Inst.ADDI(seg_led,seg_led,0x8),
         Inst.LW(slot3_memory, tmp_memory_addr, 0x4),
-        Inst.SW(seg_led,slot2_memory,0x4),# dummySW
-        Inst.SW(seg_led,slot2_memory,0x4),
+        Inst.SW(seg_led,slot3_memory,0x4),# dummySW
+        Inst.SW(seg_led,slot3_memory,0x4),
         Inst.ADDI(seg_led,seg_led,0x8),
         Inst.LW(slot3_memory, tmp_memory_addr, 0x4),
-        Inst.SW(seg_led,slot2_memory,0x8),# dummySW
-        Inst.SW(seg_led,slot2_memory,0x8),
+        Inst.SW(seg_led,slot3_memory,0x8),# dummySW
+        Inst.SW(seg_led,slot3_memory,0x8),
         # Inst.SB(seg_led, slot3_memory, 2),  # dummySB
         # Inst.SB(seg_led, slot3_memory, 2),
         #counterが1~8のとき->counter++　counterが9のとき->counter = 0
