@@ -54,13 +54,14 @@ program_main = [
     Inst.ADDI(counter_max, 0, 9),
     Inst.ADDI(step,0,0),
     # ループ部分
-    "input",
+    "input1",
     Inst.LW(push_switch,seg_led,0x48),
     Inst.ANDI(push_result,push_switch,0x01),
     Inst.LBEQ(push_result,0,"slot1"),
-    Inst.ADDI(step,step,1),
+    Inst.ADDI(step,step,0b001),
     "slot1",
-    Inst.LBGE(step,1,"slot2"),
+    Inst.ANDI(push_result,step,0x001),
+    Inst.LBEQ(push_result,0,"input3"),
     Inst.ADD(tmp_memory_addr, slot1_counter, seg_patterns_mem),
     Inst.LBU(slot1_memory, tmp_memory_addr, 0),
     Inst.SB(seg_led, slot1_memory, 0),  # dummySB
@@ -68,11 +69,17 @@ program_main = [
     Inst.LBEQ(slot1_counter, counter_max, "slot1_reset"),
     "slot1_add_1",
     Inst.ADDI(slot1_counter, slot1_counter, 1),
-    Inst.LJAL(0, "slot2"),  # goto slot2
+    Inst.LJAL(0, "input2"),  # goto input22
     "slot1_reset",
     Inst.ADDI(slot1_counter, 0, 0),
+    "input2",
+    Inst.LW(push_switch,seg_led,0x49),
+    Inst.ANDI(push_result,push_switch,0x01),
+    Inst.LBEQ(push_result,0,"slot2"),
+    Inst.ADDI(step,step,0b010),
     "slot2",
-    Inst.LBGE(step,2,"slot3"),
+    Inst.ANDI(push_result,step,0x010),
+    Inst.LBEQ(push_result,0,"input3"),
     Inst.ADD(tmp_memory_addr, slot2_counter, seg_patterns_mem),
     Inst.LBU(slot2_memory, tmp_memory_addr, 0),
     Inst.SB(seg_led, slot2_memory, 1),  # dummySB
@@ -80,11 +87,17 @@ program_main = [
     Inst.LBEQ(slot2_counter, counter_max, "slot2_reset"),
     "slot2_add_1",
     Inst.ADDI(slot2_counter, slot2_counter, 1),
-    Inst.LJAL(0, "slot3"),  # goto slot3
+    Inst.LJAL(0, "input3"),  # goto input3
     "slot2_reset",
     Inst.ADDI(slot2_counter, 0, 0),
+    "input3",
+    Inst.LW(push_switch,seg_led,0x4a),
+    Inst.ANDI(push_result,push_switch,0x01),
+    Inst.LBEQ(push_result,0,"slot3"),
+    Inst.ADDI(step,step,0b100),
     "slot3",
-    Inst.LBGE(step,3,"input"),
+    Inst.ANDI(push_result,step,0x100),
+    Inst.LBEQ(push_result,0,"input1"),
     Inst.ADD(tmp_memory_addr, slot3_counter, seg_patterns_mem),
     Inst.LBU(slot3_memory, tmp_memory_addr, 0),
     Inst.SB(seg_led, slot3_memory, 2),  # dummySB
@@ -92,10 +105,10 @@ program_main = [
     Inst.LBEQ(slot3_counter, counter_max, "slot3_reset"),
     "slot3_add_1",
     Inst.ADDI(slot3_counter, slot3_counter, 1),
-    Inst.LJAL(0, "input"),  # goto slot1
+    Inst.LJAL(0, "input1"),  # goto input1
     "slot3_reset",
     Inst.ADDI(slot3_counter, 0, 0),
-    Inst.LJAL(0, "input"),  # goto slot1
+    Inst.LJAL(0, "input1"),  # goto input1
 ]
 
 program.extend(program_main)
