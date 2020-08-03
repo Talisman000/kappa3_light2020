@@ -156,18 +156,18 @@ branch_result = 6
 step = 7
 
 slot1_init = 0x0
-slot1_counter = 11
-slot1_memory = 12
-
 slot2_init = 0x0
-slot2_counter = 13
-slot2_memory = 14
-
 slot3_init = 0x0
-slot3_counter = 15
-slot3_memory = 16
+slot1_counter = 11
+slot1_memory = 14
 
-tmp_memory_addr = 17
+slot2_counter = 12
+slot2_memory = 18
+
+slot3_counter = 13
+slot3_memory = 22
+
+tmp_memory_addr = 10
 
 program_main = [
     # 初期化
