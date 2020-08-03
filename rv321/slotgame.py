@@ -159,11 +159,11 @@ slot1_init = 0x0
 slot1_counter = 11
 slot1_memory = 12
 
-slot2_init = 0x0
+slot2_init = 0xc
 slot2_counter = 13
 slot2_memory = 14
 
-slot3_init = 0x0
+slot3_init = 0x54
 slot3_counter = 15
 slot3_memory = 16
 
@@ -286,9 +286,9 @@ program_main = [
         Inst.ADDI(slot3_counter, 0, 0),
 
     "judge",
-        Inst.LBNE(slot_isReach,0,'return'),
         Inst.ADDI(slot_step_pattern, 0, 0b111),
         Inst.LBEQ(step, slot_step_pattern, 'slot1_2_3'),
+        Inst.LBNE(slot_isReach,0,'return'),
         Inst.ADDI(slot_step_pattern, 0, 0b110),
         Inst.LBEQ(step, slot_step_pattern, 'slot2_3'),
         Inst.ADDI(slot_step_pattern, 0, 0b101),
