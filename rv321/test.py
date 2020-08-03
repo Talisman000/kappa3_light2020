@@ -51,9 +51,11 @@ Inst.SB(5, 6, 0x9),
 Inst.SB(5, 6, 0xa),#dummySB
 # Main
 Inst.LUI(6, 0x04000000),
+Inst.ADDI(1,1,1),
 Inst.LBU(8,5,0),
 Inst.SB(6,8,0),
 Inst.SB(6,8,0),
+Inst.ADDI(1,1,1),
 Inst.LBU(8,5,0x1),
 Inst.SB(6,8,0x1),
 Inst.SB(6,8,0x1),
